@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
 import { SimplePokemon } from '../interfaces/pokemonInterfaces';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -16,19 +16,24 @@ interface Props {
 export const PokemonCard = ({pokemon}: Props) => {
 
   const [bgColor, setBgColor] = useState('grey');
+  const isMounted = useRef(true);
 
   useEffect(() => {
 
     ImageColors.getColors(pokemon.picture, {fallback: 'grey'})
       .then(colors => {
-        console.log(colors);
+
+        if (!isMounted.current) {return;}
 
         (colors.platform === 'android')
           ? setBgColor(colors.dominant || 'grey')
           : setBgColor(colors.background || 'grey');
 
       });
+      return () => {
+        isMounted.current = false;
 
+      };
   }, []);
 
 
