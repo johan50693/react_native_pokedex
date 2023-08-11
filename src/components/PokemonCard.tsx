@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
 import { SimplePokemon } from '../interfaces/pokemonInterfaces';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FadeInImage } from './FadeInImage';
 
 const windowsWidth = Dimensions.get('window').width;
 
@@ -17,7 +18,7 @@ export const PokemonCard = ({pokemon}: Props) => {
     >
       <View style={{
         ...styles.cardContainer,
-        width: windowsWidth * 0.44,
+        width: windowsWidth * 0.4,
         }}>
           {/* Nombre del pokemon y ID */}
           <View>
@@ -26,13 +27,16 @@ export const PokemonCard = ({pokemon}: Props) => {
               { '\n#' + pokemon.id}
             </Text>
           </View>
-        {/* <FadeInImage
-          uri={item.picture}
-          style= {{
-            width: 100,
-            height: 100,
-          }}
-        /> */}
+          <View style={styles.pokebolaContainer}>
+            <Image
+              source={require('../assets/pokebola-blanca.png')}
+              style={styles.pokebola}
+            />
+          </View>
+        <FadeInImage
+          uri={pokemon.picture}
+          style= {styles.pokemonImage}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -47,6 +51,15 @@ const styles = StyleSheet.create({
       width:160,
       marginBottom: 25,
       borderRadius: 10,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+
+      elevation: 5,
     },
     name: {
       color: 'white',
@@ -54,5 +67,28 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       top:20,
       left:10,
+    },
+    pokebola: {
+      width: 100,
+      height: 100,
+      right: -20,
+      bottom: -20,
+    },
+    pokemonImage: {
+      width: 120,
+      height: 120,
+      position: 'absolute',
+      right: -8,
+      bottom: -5,
+    },
+    pokebolaContainer: {
+      // backgroundColor: 'blue',
+      width: 100,
+      height: 100,
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      overflow: 'hidden',
+      opacity: 0.5,
     },
 });
