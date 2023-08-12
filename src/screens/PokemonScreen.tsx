@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator} from 'react-native';
 import { RootStackParams } from '../navigator/Navigator';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FadeInImage } from '../components/FadeInImage';
+import { usePokemon } from '../hooks/usePokemon';
 
 interface Props extends StackScreenProps<RootStackParams, 'Pokemonscreen'>{}
 
@@ -14,8 +15,10 @@ export const Pokemonscreen = ({navigation,route}: Props) => {
   const {simplePokemon, color} = route.params;
   const {id,name,picture} = simplePokemon;
   const {top} = useSafeAreaInsets();
+  const {isLoading,pokemon} = usePokemon(id);
+
   return (
-    <View>
+    <View style={{flex:1}}>
       {/* Header container */}
       <View style= {{
         ...styles.headerContainer,
@@ -58,6 +61,11 @@ export const Pokemonscreen = ({navigation,route}: Props) => {
               style= {styles.pokemonImage}
           />
       </View>
+        {/* Detalles y loading */}
+        <View style={styles.loadingIndicator}>
+            <ActivityIndicator color={color} size={50} />
+        </View>
+
     </View>
   );
 };
@@ -92,5 +100,10 @@ const styles = StyleSheet.create({
       height: 250,
       position: 'absolute',
       bottom: -10,
+    },
+    loadingIndicator: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 });
