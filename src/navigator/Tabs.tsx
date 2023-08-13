@@ -4,7 +4,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SearchScreen} from '../screens/SearchScreen';
 import { Navigator } from './Navigator';
 import { Platform } from 'react-native';
-import { styles } from '../theme/appTheme';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
@@ -28,6 +27,7 @@ export const Tabs = () => {
           position: 'absolute',
           backgroundColor: 'rgba(255,255,255,0.9)',
         },
+        headerShown: false,
       }}
     >
       <Tab.Screen
@@ -47,7 +47,7 @@ export const Tabs = () => {
           name="Search"
           component={SearchScreen}
           options={{
-            tabBarLabel: 'Listado',
+            tabBarLabel: 'Búsqueda',
             tabBarIcon: ({color}) => (
                       <Icon
                             name="search-outline"
