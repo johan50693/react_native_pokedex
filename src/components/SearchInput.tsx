@@ -1,14 +1,25 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Platform, StyleProp, StyleSheet, TextInput, ViewStyle } from 'react-native';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useDebounceValue } from '../hooks/useDebounceValue';
 
 interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
 export const SearchInput = ({style}:Props) => {
+
+  const [textValue, setTextValue] = useState('');
+
+  const debouncedValue = useDebounceValue(textValue);
+
+  useEffect(() => {
+    console.log(debouncedValue);
+  }, [debouncedValue]);
+
+
   return (
       <View style={{
             ...styles.container,
@@ -23,6 +34,8 @@ export const SearchInput = ({style}:Props) => {
             }}
             autoCapitalize="none"
             autoCorrect= {false}
+            value={textValue}
+            onChangeText={setTextValue}
           />
 
           <Icon
