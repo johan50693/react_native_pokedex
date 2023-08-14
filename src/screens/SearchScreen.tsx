@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Platform, Dimensions} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SearchInput } from '../components/SearchInput';
@@ -8,6 +8,7 @@ import { PokemonCard } from '../components/PokemonCard';
 import {styles as globalStyles } from '../theme/appTheme';
 import { FlatList } from 'react-native';
 import { Loading } from '../components/Loading';
+import { SimplePokemon } from '../interfaces/pokemonInterfaces';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -15,6 +16,23 @@ export const SearchScreen = () => {
 
   const {top} = useSafeAreaInsets();
   const { isfetching,simplePokemonList} = usePokemonSearch();
+  const [pokemonFiltered, setPokemonFiltered] = useState<SimplePokemon>([]);
+  const [term, setTerm] = useState('');
+
+  useEffect(() => {
+
+    if (term.length === 0){
+      return setPokemonFiltered([]);
+    }
+
+    setPokemonFiltered(
+      simplePokemonList.filter(
+        (poke) => poke.name.toLowerCase()
+                            .includes(term.toLowerCase())
+      )
+    );
+
+  }, [term]);
 
   if ( isfetching ){
     return (<Loading />);
@@ -25,15 +43,17 @@ export const SearchScreen = () => {
             // marginTop: (Platform.OS === 'ios') ? top : top + 10,
             marginHorizontal: 20,
           }}>
-            <SearchInput style={{
-              position: 'absolute',
-              zIndex: 999,
-              width: screenWidth - 40,
-              top: (Platform.OS === 'ios') ? top : top + 30,
-            }} />
+            <SearchInput
+              onDebounce= {(value) => setTerm(value)}
+              style={{
+                position: 'absolute',
+                zIndex: 999,
+                width: screenWidth - 40,
+                top: (Platform.OS === 'ios') ? top : top + 30,
+              }} />
 
             <FlatList
-              data={simplePokemonList}
+              data={pokemonFiltered}
               keyExtractor={ (pokemon) => pokemon.id }
               showsVerticalScrollIndicator={false}
               numColumns={2}
@@ -45,7 +65,7 @@ export const SearchScreen = () => {
                   paddingBottom: 10,
                   marginTop: top + 80,
                 }}>
-                  Pokedex
+                  {term}
                 </Text>
               )}
 
