@@ -1,11 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { SimplePokemon } from '../interfaces/pokemonInterfaces';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FadeInImage } from './FadeInImage';
 import ImageColors  from 'react-native-image-colors';
-import { Navigator } from '../navigator/Navigator';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -43,7 +41,7 @@ export const PokemonCard = ({pokemon}: Props) => {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      onPress={ () => navigation.navigate('Pokemonscreen', {
+      onPress={ () => navigation.navigate('PokemonScreen', {
         simplePokemon: pokemon,
         color: bgColor,
       })}

@@ -9,9 +9,9 @@ import { FadeInImage } from '../components/FadeInImage';
 import { usePokemon } from '../hooks/usePokemon';
 import { PokemonDetail } from '../components/PokemonDetail';
 
-interface Props extends StackScreenProps<RootStackParams, 'Pokemonscreen'>{}
+interface Props extends StackScreenProps<RootStackParams, 'PokemonScreen'>{}
 
-export const Pokemonscreen = ({navigation,route}: Props) => {
+export const PokemonScreen = ({navigation,route}: Props) => {
 
   const {simplePokemon, color} = route.params;
   const {id,name,picture} = simplePokemon;
